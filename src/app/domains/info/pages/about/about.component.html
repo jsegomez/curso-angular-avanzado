@@ -8,13 +8,15 @@
   </p>
   <p class="text-base">Numero de clientes</p>
   <p>
-    <input type="range" min="0" max="100" value="50" [(ngModel)]="duration" />
+    <input type="range" min="0" max="100" value="50" [(ngModel)]="$duration" />
   </p>
-  @if (duration() > 0) {
-    <app-counter [duration]="duration()" [message]="message()" />
+  @if ($duration() > 0) {
+    <app-counter [duration]="$duration()" [(message)]="$message" />
   }
   
   <div>
     <app-wave-audio audioUrl="assets/audio.mp3" />
   </div>
+
+  <p>Valor en el componente padre: {{ $message() }}</p>
 </div>

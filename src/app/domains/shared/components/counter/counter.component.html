@@ -1,2 +1,7 @@
 <p>{{ counter() }}</p>
 <p>{{ duration() }}</p>
+<hr>
+<p>{{ 'Valor componente hijo:' + message() }}</p>
+<button (click)="message.set('Valor componente hijo')">
+    Actualizar mensaje
+</button>

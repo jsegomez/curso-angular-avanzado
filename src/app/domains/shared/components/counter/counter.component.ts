@@ -6,6 +6,7 @@ import {
   OnDestroy,
   input,
   effect,
+  model,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -18,7 +19,7 @@ export class CounterComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
   public duration = input.required();
-  public message = input.required();
+  public message = model.required<string>();
   counter = signal(0);
   counterRef: number | undefined;
 
@@ -33,17 +34,6 @@ export class CounterComponent
       this.doSomething();
     });
   }
-
-  // ngOnChanges(changes: SimpleChanges) {
-  //   // before and during render
-  //   console.log('ngOnChanges');
-  //   console.log('-'.repeat(10));
-  //   console.log(changes);
-  //   const duration = changes['duration'];
-  //   if (duration && duration.currentValue !== duration.previousValue) {
-  //     this.doSomething();
-  //   }
-  // }
 
   ngOnInit() {
     // after render
