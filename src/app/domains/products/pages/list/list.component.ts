@@ -1,8 +1,7 @@
 import {
   Component,
   inject,
-  signal,
-  OnInit,
+  signal,  
   OnChanges,
   input
 } from '@angular/core';
@@ -14,24 +13,25 @@ import { Product } from '@shared/models/product.model';
 import { CartService } from '@shared/services/cart.service';
 import { ProductService } from '@shared/services/product.service';
 import { CategoryService } from '@shared/services/category.service';
-import { Category } from '@shared/models/category.model';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-list',
   imports: [CommonModule, ProductComponent, RouterLinkWithHref],
   templateUrl: './list.component.html',
 })
-export default class ListComponent implements OnInit, OnChanges {
-  products = signal<Product[]>([]);
-  categories = signal<Category[]>([]);
+export default class ListComponent implements OnChanges {
   private cartService = inject(CartService);
   private productService = inject(ProductService);
   private categoryService = inject(CategoryService);
   readonly slug = input<string>();
 
-  ngOnInit() {
-    this.getCategories();
-  }
+  categoriesResource = rxResource({
+    loader: () => this.categoryService.getAll(),
+    
+  });
+
+  products = signal<Product[]>([]);
 
   ngOnChanges() {
     this.getProducts();
@@ -49,11 +49,7 @@ export default class ListComponent implements OnInit, OnChanges {
     });
   }
 
-  private getCategories() {
-    this.categoryService.getAll().subscribe({
-      next: (data) => {
-        this.categories.set(data);
-      },
-    });
+  reloadCategories() {
+    this.categoriesResource.reload();
   }
 }

@@ -18,5 +18,11 @@
     <app-wave-audio audioUrl="assets/audio.mp3" />
   </div>
 
-  <p>Valor en el componente padre: {{ $message() }}</p>
+  <p>with init value: {{ $withInit() }}</p>
+  <button (click)="emitWitInit()">Emit With init value</button>
+  
+  <p>=======================</p>
+
+  <p>without init value: {{ $withoutInit() }}</p>
+  <button (click)="emitWithoutInit()">Emit Without init value</button>
 </div>
