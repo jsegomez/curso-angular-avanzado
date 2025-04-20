@@ -1,7 +1,8 @@
 import {
   Component,
   inject,  
-  input
+  input,
+  resource
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLinkWithHref } from '@angular/router';
@@ -24,8 +25,8 @@ export default class ListComponent {
   private categoryService = inject(CategoryService);
   readonly slug = input<string>();
 
-  categoriesResource = rxResource({
-    loader: () => this.categoryService.getAll(),
+  categoriesResource = resource({
+    loader: () => this.categoryService.getAllPromise(),
   });
 
   productsResource = rxResource({
