@@ -1,8 +1,6 @@
 import {
   Component,
-  inject,
-  signal,  
-  OnChanges,
+  inject,  
   input
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -20,7 +18,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
   imports: [CommonModule, ProductComponent, RouterLinkWithHref],
   templateUrl: './list.component.html',
 })
-export default class ListComponent implements OnChanges {
+export default class ListComponent {
   private cartService = inject(CartService);
   private productService = inject(ProductService);
   private categoryService = inject(CategoryService);
@@ -28,25 +26,15 @@ export default class ListComponent implements OnChanges {
 
   categoriesResource = rxResource({
     loader: () => this.categoryService.getAll(),
-    
   });
 
-  products = signal<Product[]>([]);
-
-  ngOnChanges() {
-    this.getProducts();
-  }
+  productsResource = rxResource({
+    request: () =>  ({ categorySlug: this.slug() }),
+    loader: ({request}) => this.productService.getProducts(request),
+  });
 
   addToCart(product: Product) {
     this.cartService.addToCart(product);
-  }
-
-  private getProducts() {
-    this.productService.getProducts({categorySlug: this.slug()}).subscribe({
-      next: (products) => {
-        this.products.set(products);
-      },
-    });
   }
 
   reloadCategories() {

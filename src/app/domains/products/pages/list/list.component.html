@@ -28,9 +28,11 @@
     }
 
   </div>
-  <div class="grid grid-cols-2 gap-8 w-full md:grid-cols-4">
-    @for (product of products(); track product) {
-      <app-product [product]="product" (addToCart)="addToCart($event)" />
-    }
-  </div>
+  @if(productsResource.hasValue()){
+    <div class="grid grid-cols-2 gap-8 w-full md:grid-cols-4">
+      @for (product of productsResource.value(); track product) {
+        <app-product [product]="product" (addToCart)="addToCart($event)" />
+      }
+    </div>
+  }
 </div>
